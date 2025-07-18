@@ -41,7 +41,8 @@ def is_valid_char(c):
 
 SEED = (
     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-    "!@#$%^&*()-_+=[{]};:',\"<>?/" + ''.join(chr(i) for i in range(0x00, 0x42))
+    "!@#$%^&*()-_+=[{]};:',\"<>?/"
+    + ''.join(chr(i) for i in range(0x20, 0x7F))  # Printable ASCII range
 )
 
 def load_frozen_alphabet() -> str:
