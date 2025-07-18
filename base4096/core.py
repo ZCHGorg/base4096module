@@ -4,6 +4,7 @@
 
 import unicodedata
 import os
+import importlib.resources
 
 # Generate or load the base4096 character set
 def generate_base4096_alphabet(seed):
@@ -43,14 +44,15 @@ SEED = (
     "!@#$%^&*()-_+=[{]};:',\"<>?/" + ''.join(chr(i) for i in range(0x00, 0x42))
 )
 
-def load_frozen_alphabet(filepath="frozen_base4096_alphabet.txt") -> str:
-    if not os.path.exists(filepath):
-        raise FileNotFoundError(f"Frozen alphabet file not found: {filepath}")
-    with open(filepath, "r", encoding="utf-8") as f:
-        alphabet = f.read().strip()
-    if len(alphabet) != 4096:
-        raise ValueError("Frozen alphabet length is not 4096 characters.")
-    return alphabet
+def load_frozen_alphabet() -> str:
+    try:
+        with importlib.resources.files(__package__).joinpath("frozen_base4096_alphabet.txt").open("r", encoding="utf-8") as f:
+            alphabet = f.read().strip()
+        if len(alphabet) != 4096:
+            raise ValueError("Frozen alphabet length is not 4096 characters.")
+        return alphabet
+    except FileNotFoundError as e:
+        raise FileNotFoundError("Missing frozen_base4096_alphabet.txt within package.") from e
 
 try:
     BASE4096_ALPHABET = load_frozen_alphabet()
