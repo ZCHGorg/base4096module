@@ -1,6 +1,13 @@
-# base4096/__init__.py
 from .core import encode, decode
-from .frozen_base4096_alphabet import BASE4096_ALPHABET, CHAR_TO_INDEX
+from .frozen_alphabet import load_frozen_alphabet, BASE4096_ALPHABET
+from .freeze_alphabet import generate_base4096_alphabet
+from .hkdf_seal import hkdf_seal, hkdf_open  # if present
+from .signer import sign_alphabet, verify_signature  # if present
 
-__version__ = '2.0'
-__all__ = ['encode', 'decode', 'BASE4096_ALPHABET', 'CHAR_TO_INDEX']
+__all__ = [
+    "encode", "decode",
+    "load_frozen_alphabet", "generate_base4096_alphabet",
+    "BASE4096_ALPHABET",
+    "hkdf_seal", "hkdf_open",
+    "sign_alphabet", "verify_signature"
+]
