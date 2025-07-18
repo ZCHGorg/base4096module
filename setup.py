@@ -5,6 +5,9 @@ setup(
     version='2.0',
     packages=find_packages(),  # Finds the base4096/ package automatically
     include_package_data=True,
+    package_data={
+        "base4096": ["frozen_base4096_alphabet.txt"],
+    },
     description='Base4096 encoding and decoding functions',
     author='Josef Kulovany',
     author_email='charg.chg.wecharg@gmail.com',
