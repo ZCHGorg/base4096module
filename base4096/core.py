@@ -48,6 +48,8 @@ def load_frozen_alphabet() -> str:
     try:
         with importlib.resources.files(__package__).joinpath("frozen_base4096_alphabet.txt").open("r", encoding="utf-8") as f:
             alphabet = f.read().strip()
+        print(f"Loaded alphabet length: {len(alphabet)}")
+        print(f"First 10 chars: {alphabet[:10].encode('unicode_escape')}")
         if len(alphabet) != 4096:
             raise ValueError("Frozen alphabet length is not 4096 characters.")
         return alphabet
