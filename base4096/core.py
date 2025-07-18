@@ -47,15 +47,16 @@ def load_frozen_alphabet(filepath="frozen_base4096_alphabet.txt") -> str:
     if not os.path.exists(filepath):
         raise FileNotFoundError(f"Frozen alphabet file not found: {filepath}")
     with open(filepath, "r", encoding="utf-8") as f:
-        alphabet = f.read().strip()
+        raw = f.read()
+    # Remove ALL whitespace (newlines, spaces, tabs, etc)
+    alphabet = ''.join(raw.split())
     if len(alphabet) != 4096:
-        raise ValueError("Frozen alphabet length is not 4096 characters.")
+        raise ValueError(f"Frozen alphabet length after stripping whitespace is {len(alphabet)}; expected 4096.")
     return alphabet
 
 try:
     BASE4096_ALPHABET = load_frozen_alphabet()
 except Exception as e:
-    # Optional fallback, but warn
     print(f"Warning: Could not load frozen alphabet: {e}")
     print("Falling back to internal seed (not recommended).")
     BASE4096_ALPHABET = generate_base4096_alphabet(SEED)
