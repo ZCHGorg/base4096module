@@ -48,10 +48,14 @@ def load_frozen_alphabet() -> str:
     try:
         with importlib.resources.files(__package__).joinpath("frozen_base4096_alphabet.txt").open("r", encoding="utf-8") as f:
             raw = f.read()
-        # Remove all whitespace (spaces, newlines, tabs)
-        alphabet = ''.join(raw.split())
+        alphabet = ''.join(raw.split())  # remove all whitespace
+        
         print(f"Loaded alphabet length (whitespace removed): {len(alphabet)}")
         if len(alphabet) != 4096:
+            print("Extra chars found at positions:")
+            for i, ch in enumerate(alphabet):
+                if not is_valid_char(ch):
+                    print(f"  Index {i}: U+{ord(ch):04X} '{ch}' {unicodedata.name(ch, 'UNKNOWN')}")
             raise ValueError("Frozen alphabet length is not 4096 characters after stripping whitespace.")
         return alphabet
     except FileNotFoundError as e:
